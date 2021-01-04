@@ -1,0 +1,93 @@
+/* Author: arte504
+Assignment: 3 - ex.1 
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+#define size_s 5
+#define size_b 10
+
+int contain();
+int flag=-1;
+void digits();
+
+int main()
+{
+	int small[size_s]; 
+	int big[size_b];
+	// The small array and his input
+	printf(" Enter the small array please:\n"); 
+	for (int i = 0; i < size_s; i++)
+	{
+		scanf("%d", &small[i]);
+	}
+	// The big array and his input
+	printf(" Enter the big array please:\n");
+	for (int i = 0; i < size_b; i++)
+	{
+		scanf("%d", &big[i]);
+	}
+	// Calling for action(function/s) and printing the answers
+	flag = contain(big, small);
+
+	printf(" The return index is:%d\n", flag);
+	printf("\n");
+
+	printf(" The statistics for small is:\n");
+	digits(small, size_s);
+
+	printf(" The statistics for big is:\n");
+	digits(big, size_b);
+	printf("\n");
+
+	return 0;
+}
+
+int contain(int big[], int small[]) // EX1
+{
+	int i, j;
+	for (i = 0; i < size_b; i++) 
+	{
+		for (j = 0; j < size_s; j++) 
+		{
+			if ( (small[j]-big[i]) == 0) // Checking if small in index [j] is equal to big in index [i]
+			{
+				flag = i-j; // The start index of containing the small array in the big
+			}
+			else
+			{
+				flag = -1; // If not contain we must return '-1'
+			}
+		}
+	}
+	printf("\n");
+	return flag;
+}
+
+void digits(int arr[], int size) // EX2
+{
+	int statistics[size_b] = { 0,0,0,0,0,0,0,0,0,0 }; // Make statistics array in size of 10 and zeroize it
+	int digit;
+	for (int i = 0; i < size; i++)
+	{
+		while (arr[i] != 0) 
+		{
+			digit = arr[i] % 10; 
+			statistics[digit]++;  
+			arr[i] /= 10;		 
+		}
+	}
+	for (int j = 0; j < 10; j++)
+	{
+		if (j == 0)
+		{
+			printf("{ ");
+		}
+		printf(" %d ", statistics[j]);
+		if (j == 9)
+		{
+			printf(" }");
+		}
+	}
+	printf("\n");
+}
