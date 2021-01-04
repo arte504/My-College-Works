@@ -13,12 +13,17 @@ int main()
 {
 	float km=0, end_price=0; // Announce of all floating point variables.
 	int luggage_count = 0; // Announce of the only integer number that we need.
+	
 	printf("Hello this is a taximeter program.\n Starting price:10.20\n Price per km:1.30\n Price per luggage:2.00\n");
+	
 	printf("Please enter the distance you want to cross:\n");
 	scanf("%f", &km); // Scanning for the distance.
+	
 	printf("Please enter how many luggage do you have:\n");
 	scanf("%d", &luggage_count); // Scanning for how many luggage we need to transfer.
+	
 	end_price = (starting_price + (price_to_km * km) + (luggage_price * luggage_count)); // The formula of the end price
+	
 	printf("The price for your ride is:%.2f\n", end_price);
 	printf("Thank you and have a nice day!\n");
 
