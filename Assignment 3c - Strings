@@ -1,0 +1,104 @@
+/* Author: arte504
+Assignment: 3 - ex.3 
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <string.h>
+
+#define SIZE 80
+void rotate_left();
+void rotate_right();
+int intersection();
+
+int main()
+{
+	char str1[SIZE], str2[SIZE];
+	int index = 0;
+	printf(" This program is using strings and word so please make a space between words!\n");
+	printf(" Please enter your first string:\n"); // Getting first string
+	gets(str1);
+	printf(" Please enter your second string:\n"); // Getting the second one
+	gets(str2);
+	// Functions calling
+	for (int i = 0; i < 2; i++)       // Rotate firts string 2 times right! 
+	{
+		rotate_right(str1);
+	}
+	for (int i = 0; i < 3; i++)       // Rotate second string 3 times left!
+	{
+		rotate_left(str2);
+	}
+	index = intersection(str1, str2); // Checking for intersection
+	// Printing out the answers
+	printf(" \n");
+	printf(" First string after 2 rotations right: ");
+	puts(str1);
+	printf(" Second string after 3 rotations left: ");
+	puts(str2);
+	printf(" Intersection of the last 2 strings: %d", index);
+	printf(" \n");
+
+	return 0;
+}
+
+void rotate_left(char* str) // Rotating left function
+{
+	int a = 0, lenght = strlen(str);
+	while (str[a] != ' ') // Runing forward till the first 'space'
+	{
+		a++;
+	}
+	char tmp[SIZE]; // Declare tmp for temp word
+	for (int b = a + 1, c = 0; c < lenght + a; b++, c++) 
+	{
+		tmp[c] = str[b]; 
+	}
+	tmp[lenght + a + 1] = ' '; // Making the temp word
+	tmp[lenght + a] = '\0';
+	strcat(tmp, str); 
+	strcpy(str, tmp); // Adding the tenp word to the str
+	str[lenght] = '\0'; 
+}
+
+void rotate_right(char* str) // Rotating right function
+{
+	int lenght = strlen(str), a = lenght;
+	while (str[a] != ' ') // Runing backward till the first 'space'
+	{
+		a--;
+	}
+	char tmp[SIZE]; // Declare tmp for temp word
+	for (int b = a + 1, c = 0; c < lenght - a; b++, c++)
+	{
+		tmp[c] = str[b];
+	}
+	tmp[lenght - a - 1] = ' '; // Making the temp word
+	tmp[lenght - a] = '\0';
+	strcat(tmp, str);
+	strcpy(str, tmp); // Adding the tenp word to the str
+	str[lenght] = '\0';
+}
+
+int intersection(char* str1, char* str2) // Intersection function
+{
+	int check = 0, lenght1 = strlen(str1), lenght2 = strlen(str2), flag=0;
+	// Check what string is longer
+	if (lenght1 > lenght2)
+	{
+		check = lenght2;
+	}
+	else					
+	{
+		check = lenght1;
+	}
+	for (int i = 0; i < check; i++)
+	{
+		if (str1[i]== str2[i] || str1[i]-32==str2[i]|| str1[i] == str2[i]-32) // Checking for capital latters
+		{
+			flag++;
+		}
+		if ( (str1[i] == ' ' && str2[i] == '@') || (str1[i] == '@' && str2[i] == ' ') ) // If we have 'space'=='@' we dont mantion it! Their ASCII code is (+32||-32) range
+			flag--;
+	}
+	return flag; // Return the count of equal indexes
+}
