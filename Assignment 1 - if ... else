@@ -1,0 +1,29 @@
+/* Assignment: 1 - ex.3
+Author: arte504 
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#define hw 0.3*((hw1+hw2+hw3+hw4+hw5)/5)
+
+int main()
+{
+	int exam, hw1, hw2, hw3, hw4, hw5, grade;
+  
+	printf("Hello. This program will show your finall grade for the software course\n");
+  
+	printf("Please enter your exam grade and 5 grades of the homeworks:\n");
+	scanf("%d %d %d %d %d %d", &exam, &hw1, &hw2, &hw3, &hw4, &hw5);
+	if (exam < 56) // If the exam grade lower than 56 than the course grade is the exam grade.
+	{
+		grade = exam;
+		printf("You failled and your grade is:%d\n", grade);
+	}
+	else // Only if the exam grade higher or equal to 56 the course grade is 70% of exam grade and 30% of the homework avg grade.
+	{
+		grade = (0.7 * exam + hw);
+		printf("You passed and your grade is:%d\n", grade);
+	}
+
+	return 0;
+}
