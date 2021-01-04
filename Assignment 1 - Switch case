@@ -1,0 +1,52 @@
+/* Assignment: 1- ex.4
+Author: arte504
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int main()
+{
+	int option;
+	float pi=3.14, lenght=0, hight=0, radius=0, area=0;
+  
+	printf("Hello, this program will calculate area of next 4 shapes:\n 1.Triangle\n 2.Rectangle\n 3.Square\n 4.Circle\n");
+  
+	printf("Select the shape you want:\n");
+	scanf("%d", &option); // Choose the option.
+  
+	if (option < 1 || option>4) // Check for right choose.
+		printf("ERROR!\n"); // If not, end program with error.
+	else // Else go to the right option in switch case.
+	{
+		switch (option)
+		{
+		case 1: // Triangle option.
+			printf("Enter base and hight:\n");
+			scanf("%f %f", &lenght, &hight);
+			area = ((lenght * hight) / 2);
+			printf("The area of the triangle is:%f", area);
+			break;
+		case 2: // Rectangle option.
+			printf("Enter lenght and hight:\n");
+			scanf("%f %f", &lenght, &hight);
+			area = (lenght * hight);
+			printf("The area of the rectangle is:%f", area);
+			break;
+		case 3: // Square option.
+			printf("Enter base:\n");
+			scanf("%f", &lenght);
+			area = lenght*lenght ;
+			printf("The area of the square is:%f", area);
+			break;
+		case 4: // Circle option.
+			printf("Enter radius:\n");
+			scanf("%f", &radius);
+			area = ((radius*radius)*pi);
+			printf("The area of the circle is:%f", area);
+			break;
+		}
+	}
+
+	return 0;
+}
