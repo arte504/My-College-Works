@@ -1,0 +1,240 @@
+/* Assignment: 1- ex.5
+Author: arte504
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int main()
+{
+	int Num = 0, minDig = 0, maxDig = 0, a=0, b=0, c=0, d=0;
+	printf("Please enter a number\n");
+	scanf("%d", &Num);
+
+	if (Num >= 10000 && Num <= -1)
+		printf("ERROR!\n");
+
+	else if(Num<=9 && Num>=0) // For 1 digit number
+	{
+		printf("One digit number so the highest and the lowest digit is:%d\n", Num);
+	}
+
+	else if (Num <= 99 && Num >= 10) // For 2 digit number
+	{
+		a = Num / 10; // Make the first digit
+		b = Num % 10; // Make the second digit
+		if (a > b)	  // Check which one higher
+		{
+			minDig = b;
+			maxDig = a;
+			printf(" The highest digit is:%d\n The lowest digit is:%d\n", maxDig, minDig); 
+		}
+		else
+		{
+			minDig = a;
+			maxDig = b;
+			printf(" The highest digit is:%d\n The lowest digit is:%d\n", maxDig, minDig);
+		}
+	}
+
+	else if (Num <= 999 && Num >= 100) // For 3 digit number
+	{
+		a = Num / 100;   // Make the first digit
+		Num = Num % 100; // Make 2 digit number
+		b = Num / 10;    // Make the second digit
+		Num = Num % 10;    // Make the third digit
+		c = Num;
+		if (a > b && a > c)
+		{
+				maxDig = a;
+				if (b > c)
+				{
+					minDig = c;
+					printf(" The highest digit is : % d\n The lowest digit is : % d\n", maxDig, minDig);
+				}
+				else
+				{
+					minDig = b;
+					printf(" The highest digit is : % d\n The lowest digit is : % d\n", maxDig, minDig);
+				}
+		}
+		if (a < b && a < c)
+		{
+			if (b > c)
+			{
+				minDig = a;
+				maxDig = b;
+				printf(" The highest digit is : % d\n The lowest digit is : % d\n", maxDig, minDig);
+			}
+			else
+			{
+				minDig = a;
+				maxDig = c;
+				printf(" The highest digit is : % d\n The lowest digit is : % d\n", maxDig, minDig);
+			}
+		}
+		if (a > b && a < c)
+		{
+			minDig = b;
+			maxDig = c;
+			printf(" The highest digit is : % d\n The lowest digit is : % d\n", maxDig, minDig);
+		}
+	}
+
+	else // For 4 digit number
+	{
+		a = Num / 1000;   // Make the first digit
+		Num = Num % 1000; // Make 3 digit number
+		b = Num / 100;    // Make the second digit
+		Num = Num % 100;  // Make 2 digit number
+		c = Num / 10;	  // Make the third digit
+		d = Num % 10;	  // Make the fourth digit
+		if (a > b && a > c && a > d)
+		{
+			maxDig = a;
+			if(b>c && b>d)
+				if (c > d)
+				{
+					minDig = d;
+					printf(" The highest digit is : % d\n The lowest digit is : % d\n", maxDig, minDig);
+				}
+				else
+				{
+					minDig = c;
+					printf(" The highest digit is : % d\n The lowest digit is : % d\n", maxDig, minDig);
+				}
+			if (b > c && b < d)
+			{
+				if (c > d)
+				{
+					minDig = d;
+					printf(" The highest digit is : % d\n The lowest digit is : % d\n", maxDig, minDig);
+				}
+				else
+				{
+					minDig = c;
+					printf(" The highest digit is : % d\n The lowest digit is : % d\n", maxDig, minDig);
+				}
+			}
+			if (b<c && b>d)
+			{
+				minDig = d;
+				printf(" The highest digit is : % d\n The lowest digit is : % d\n", maxDig, minDig);
+			}
+			if (b < c && b < d)
+			{
+				minDig = b;
+				printf(" The highest digit is : % d\n The lowest digit is : % d\n", maxDig, minDig);
+			}
+		}
+		if (a < b && a < c && a < d)
+		{
+			minDig = a;
+			if (b < c && b < d)
+			{
+				if (c > d)
+				{
+					maxDig = c;
+					printf(" The highest digit is : % d\n The lowest digit is : % d\n", maxDig, minDig);
+				}
+				else
+				{
+					maxDig = d;
+					printf(" The highest digit is : % d\n The lowest digit is : % d\n", maxDig, minDig);
+				}
+			}
+			if (b > c && b > d)
+			{
+				maxDig = b;
+				printf(" The highest digit is : % d\n The lowest digit is : % d\n", maxDig, minDig);
+			}
+			if (c > b && c > d)
+			{
+				maxDig = c;
+				printf(" The highest digit is : % d\n The lowest digit is : % d\n", maxDig, minDig);
+			}
+		}
+		if (b > a && b > c && b > d)
+		{
+			maxDig = b;
+			if (a > c && a > d)
+			{
+				if (c > d)
+				{
+					minDig = d;
+					printf(" The highest digit is : % d\n The lowest digit is : % d\n", maxDig, minDig);
+				}
+				else
+				{
+					minDig = c;
+					printf(" The highest digit is : % d\n The lowest digit is : % d\n", maxDig, minDig);
+				}
+			}
+			if (a < c && a < d)
+			{
+				minDig = a;
+				printf(" The highest digit is : % d\n The lowest digit is : % d\n", maxDig, minDig);
+			}
+			if (a<c && a>d)
+			{
+				minDig = d;
+				printf(" The highest digit is : % d\n The lowest digit is : % d\n", maxDig, minDig);
+			}
+			if (a > c && a < d)
+			{
+				minDig = c;
+				printf(" The highest digit is : % d\n The lowest digit is : % d\n", maxDig, minDig);
+			}
+		}
+		if (c > a && c > b && c > d)
+		{
+			maxDig = c;
+			if (a > b && a > d)
+			{
+				if (b > d)
+				{
+					minDig = d;
+					printf(" The highest digit is : % d\n The lowest digit is : % d\n", maxDig, minDig);
+				}
+				if (b < d)
+				{
+					minDig = b;
+					printf(" The highest digit is : % d\n The lowest digit is : % d\n", maxDig, minDig);
+				}
+			}
+		}
+		if (d > a && d > b && d > c)
+		{
+			maxDig = d;
+			if (a > b && a > c)
+			{
+				if (b > c)
+				{
+					minDig = c;
+					printf(" The highest digit is : % d\n The lowest digit is : % d\n", maxDig, minDig);
+				}
+				if (b < c)
+				{
+					minDig = b;
+					printf(" The highest digit is : % d\n The lowest digit is : % d\n", maxDig, minDig);
+				}
+			}
+			if (a<b && a>c)
+			{
+				minDig = c;
+				printf(" The highest digit is : % d\n The lowest digit is : % d\n", maxDig, minDig);
+			}
+			if (a < b && a < c)
+			{
+				minDig = a;
+				printf(" The highest digit is : % d\n The lowest digit is : % d\n", maxDig, minDig);
+			}
+			if (a > b && a < c)
+			{
+				minDig = b;
+				printf(" The highest digit is : % d\n The lowest digit is : % d\n", maxDig, minDig);
+			}
+		}
+	}
+	return 0;
+}
