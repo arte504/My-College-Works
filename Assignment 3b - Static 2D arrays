@@ -1,0 +1,117 @@
+/* Author: arte504
+Assignment: 3 - Part 2 
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int SumOfMaxNumInRow();
+int SumOfMaxNumInCol();
+int Neighbours();
+
+int main()
+{
+	int sumrow, sumcol,neighbours;
+	int arr2D[5][5];
+	for (int row = 0; row < 5; row++)
+	{
+		for (int col = 0; col < 5; col++)
+		{
+			scanf("%d", &arr2D[row][col]); // Getting array from user
+		}
+	}
+	int arr2DCopy[5][5]; // Making a copy of it because the "arr2D" is "corrupted" after first use
+	for (int x = 0; x < 5; x++)
+	{
+		for (int y = 0; y < 5; y++)
+		{
+			arr2DCopy[x][y] = arr2D[x][y];
+		}
+	}
+	int arr2DNeighbours[5][5]; // Making another copy
+	for (int x = 0; x < 5; x++)
+	{
+		for (int y = 0; y < 5; y++)
+		{
+			arr2DNeighbours[x][y] = arr2D[x][y];
+		}
+	}
+	// Calling for action(functions) and show answers
+	sumrow = SumOfMaxNumInRow(arr2D);
+	printf(" Sum of maximums of rows: %d\n", sumrow);
+	sumcol = SumOfMaxNumInCol(arr2DCopy);
+	printf(" Sum of maximums of cols: %d\n", sumcol);
+	neighbours = Neighbours(arr2DNeighbours);
+	printf(" Number of equal pairs of neighbors:%d\n", neighbours);
+
+	return 0;
+}
+
+int SumOfMaxNumInRow(int arr[5][5]) // 4
+{
+	int temp = 0, sumr = 0;
+	for (int row = 0; row < 5; row++) 
+	{
+		for (int i = 0; i < 5; i++)
+		{
+			for (int j = i+1 ; j < 5; j++)
+			{
+				if (arr[row][i] > arr[row][j]) // Make the bigger numbers go to [x][4]
+				{
+					temp = arr[row][i];
+					arr[row][i]= arr[row][j];
+					arr[row][j] = temp;
+				}
+			}
+		}
+		sumr += temp; // Summing all [x][4] biggest numbers
+	}
+	return sumr;
+}
+
+int SumOfMaxNumInCol(int arr[5][5]) // 5
+{
+	int temp = 0, suml = 0;
+	for (int col = 0; col < 5; col++)
+	{
+		for (int row = 0; row < 5; row++)
+		{
+			for (int i = row + 1; i <= 5; i++)
+			{
+				if (arr[row][col] > arr[i][col]) // Make the bigger numbers go to [0][x]
+				{
+					temp = arr[row][col];
+					arr[row][col] = arr[i][col];
+					arr[i][col] = temp;
+				}
+			}
+		}
+		suml += temp; // Summing all [0][x] biggest numbers
+	}
+	return suml;
+}
+
+int Neighbours(int arr[5][5]) // 6
+{
+	int neighbours = 0, row = 0, col = 0;
+	for (row=1; row < 5; row++) // Runnung on the numbers and check if their nieghbours numbers is equal to them
+	{
+		for (col=1; col < 5; col++)
+		{
+			if (arr[row][col + 1] == arr[row][col]) {
+				neighbours++;
+			}
+			if (arr[row - 1][col] == arr[row][col]) {
+				neighbours++;
+			}
+			if (arr[row - 1][col + 1] == arr[row][col]) {
+				neighbours++;
+			}
+			if (arr[row -1 ][col - 1] == arr[row][col]) {
+				neighbours++;
+			}
+		}
+	}
+	printf(" %d", neighbours);
+	printf("\n");
+	return neighbours; // Return the 'neighbours' count
+}
