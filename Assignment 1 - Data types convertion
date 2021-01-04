@@ -1,0 +1,23 @@
+/* Assignment: 2
+Author: Artiom Shluysberg, ID: 323512756
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int main()
+{
+	float fvalue;
+  
+	printf("Please enter your floating point value:\n");
+	scanf("%f", &fvalue); // Scanning for value.
+  
+	int integer = fvalue; // Makes floating point value to integer.
+	printf("The value is:%.2f\n", fvalue);
+	printf("The integer of it:%d\n", integer);
+	printf("The integer in hexadecimal base is:0x%x\n", integer);
+	char c = integer; // Makes integer into ASCII char.
+	printf("Your cahr is:%c\n", c);
+
+	return 0;
+}
