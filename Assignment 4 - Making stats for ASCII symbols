@@ -1,5 +1,6 @@
-/* Author: Artiom Shluysberg | ID: 323512756
- Assignment: 4 - part 1*/
+/* Author: arte504
+ Assignment: 4 - part 1
+ */
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <string.h>
