@@ -1,0 +1,148 @@
+/* Author: arte504
+ Assignment: 4 - part 3
+ */
+#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+#include<stdlib.h>
+#include <string.h>
+
+long long** shrink();
+int digitscount();
+long long NewNum();
+void FreeArr();
+
+int main()
+{
+    printf(" This program will show a 2D array that's made of another bigger 2D array.(shrink a 2D array)\n");
+    int row, exit=0;
+    long long **arr;
+    printf(" The size of the 2D array is same for the row and the column count.\n Enter the size now:"); // Input the square size from the user
+    while (exit == 0)
+    {                        // Check if input size is legal for the function
+        scanf("%d", &row);
+        if(row % 2 == 0)
+        {
+            exit = 1;
+        }
+        else
+        {
+            printf(" ERROR! The size you enter will not make you a square array!\n");
+        }
+    }
+    int col = row;     // Make it square
+    printf(" \n Now please enter the 2D array elements:\n");
+    arr = calloc(row, sizeof(long long)); // Creating the arr with the user size
+    for (int i = 0; i < col; i++)        
+    {
+        arr[i] = calloc(col, sizeof(long long));
+    }
+    for (int i = 0; i < row; i++) // Input for arr[x][y] elements from user
+    {
+        for (int j = 0; j < col; j++)
+        {
+            scanf_s("%lld", &arr[i][j]);
+        }
+    }
+    int* pSize = row;
+    long long** newarr = shrink(arr, row, pSize); // Calling for action
+
+    FreeArr(arr, col);
+    FreeArr(newarr,(col/2));
+	return 0;
+}
+
+long long** shrink(long long** arr, int size, int*pSize)
+{
+    int newRow, newCol,newSize=pSize;
+    long long** newArr;
+    newSize = size / 2; // Make the new size of the array
+    pSize = newSize;
+    newRow = newSize;
+    newCol = newSize;
+    newArr = calloc(newRow, sizeof(long long)); // Create shrinked in 2 array from the size of the original
+    for (int i = 0; i < newRow; i++)
+    {
+        newArr[i] = calloc(newCol, sizeof(long long));
+    }
+
+    for (int i = 0; i < newSize; i++) // Use function to create the long number
+    {
+        for (int j = 0; j < newSize; j++)
+        {
+            newArr[i][j] = NewNum(arr[2 * i][2 * j], arr[2 * i][2 * j + 1], arr[2 * i + 1][2 * j], arr[2 * i + 1][2 * j + 1]); 
+        }
+    }
+    printf("\n");
+    for (int a = 0; a < newSize; a++) // Print out the new array in form of: { [a][b],[a++][b++].... }
+    {
+        for (int b = 0; b < newSize; b++)
+        {
+            if (b == 0)
+            {
+                printf(" { ");
+            }
+            printf(" %d ", newArr[a][b]);
+            if (b == newSize - 1)
+            {
+                printf(" } ");
+            }
+        }
+        printf("\n");
+    }
+
+    return newArr;
+} 
+
+int digitscount(int num)
+{
+    int count = 0;
+    while (num != 0) // Check how long the num
+    {
+        num /= 10;
+        count++;
+    }
+    return count;
+}
+
+long long NewNum(int numA, int numB, int numC, int numD) // Creat the new long num
+{
+    int size = 0;
+    long long num=0;
+    size = digitscount(numA); // Check how long the num and make enough space for it
+    for (int i = 0; i < size; i++)
+    {
+        num *= 10;
+    }
+    num = num + numA; // Add the num to the start of the long num
+    size = digitscount(numB); // Check how long the num and make enough space for it
+    for (int i = 0; i < size; i++)
+    {
+        num *= 10;
+    }
+    num = num + numB; // Add the num to the start of the long num
+    size = digitscount(numC); // Check how long the num and make enough space for it
+    for (int i = 0; i < size; i++)
+    {
+        num *= 10;
+    }
+    num = num + numC; // Add the num to the start of the long num
+    size = digitscount(numD); // Check how long the num and make enough space for it
+    for (int i = 0; i < size; i++)
+    {
+        num *= 10;
+    }
+    num = num + numD; // Add the num to the start of the long num
+
+    return num;
+}
+
+void FreeArr(int** arr, int psize)
+{
+    for (int i = 0; i < psize; i++)
+    {
+        free(arr[i]);
+    }
+    free(arr);
+    arr = NULL;
+    printf("\n Memory released!\n");
+}
