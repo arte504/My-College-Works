@@ -1,0 +1,40 @@
+/* Author: Artiom Shluysberg | ID: 323512756
+ Assignment: 4 - part 1*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <string.h>
+
+int* str_statistics();
+
+int main() 
+{
+    printf(" This program will show how many small, Capitals letters and digits your string is have.\n Note: max lenght of the string is 50!\n Please enter a string of your choise:\n");
+    char str[50]; // Create the string with lenght of 50
+    gets(str);    // User input for the string
+    int* ptr = str_statistics(str); // Calling function for action
+    printf(" There are %d capital letters.\n There are %d small letters.\n There are %d digits.\n", ptr[0], ptr[1], ptr[2]);
+    // The above is the function output
+    return 0;
+}
+
+int* str_statistics(char* str)
+{
+    int r[3] = { 0,0,0 }; // Create an array for returning values to main
+    size_t lenght = strlen(str); // Check the actual lenght of the user inputed string
+    for (int i = 0; i < lenght; i++)
+    {
+        if ('Z' >= str[i] && str[i] >= 'A') // Check if symbol in range A <= str[i] <= Z
+        {
+            r[0]++;
+        }
+        if ('z' >= str[i] && str[i] >= 'a') // Check if symbol in range a <= str[i] <= z
+        {
+            r[1]++;
+        }
+        if ('9' >= str[i] && str[i] >= '0') // Check if symbol in range 0 <= str[i] <= 9
+        {
+            r[2]++;
+        }
+    }
+    return r;
+}
