@@ -1,0 +1,214 @@
+/* Author: arte504
+ Assignment: 4 - part 4
+ */
+#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+#define MaxStrLenght 50
+
+typedef enum { FALSE, TRUE }BOOL;
+
+void menu();
+void printmenu();
+char** init_arr();
+char** CreateArr();
+void FreeArr();
+char** add();
+void twice();
+int find();
+void print();
+void goodbye();
+
+int main()
+{
+    printf(" This program change your strings array.\n Please enter the strings array size:\n");
+    menu();
+    goodbye();
+
+    return 0;
+}
+
+void menu()
+{
+    int exit = 0, opt, i = 0, quit = 0;
+    int* psize = malloc(sizeof(int)); // Get array size from user
+init: scanf(" %d", psize);
+    if (*psize <= 0)
+    {
+        printf(" ERROR! Illegal size!\n Try agin:\n");
+        goto init;
+    }
+    char** arr = init_arr(psize);     // Here we initiate the arr[x][y] (2D array)
+    while (exit != TRUE)
+    {
+        printmenu();                  // Printing the menu
+        printf("\n");
+        scanf("%d", &opt);
+        switch (opt)
+        {
+        case 1: // ADD
+        {
+            char* str = malloc(MaxStrLenght * sizeof(char)); // Create str to compare, check or add to the string array
+            printf(" Please enter the compare string:\n");
+            scanf("%s", str);
+            arr = add(arr, psize, str);            // Go to add finction to create the "new" array
+            free(str);
+            break;
+        }
+        case 2: // TWICE
+        {
+            int index;
+            printf(" Please enter the index you wnat to twice:\n"); // User input index for twicing  
+            scanf("%d", &index);
+            twice(arr, psize, index);                               // Call function twice for action
+            break;
+        }
+        case 3: // FIND
+        {
+            char* str = malloc(MaxStrLenght * sizeof(char));             // Create str to compare with the array
+            int place;
+            printf(" Please enter the word you wnat to search:\n");      // User input for string to search
+            scanf("%s", str);
+            place = find(arr, psize, str);                               // Call function twice for action
+            printf(" The index of the word you search is: %d\n", place); // The return of the function
+            free(str);
+            break;
+        }
+        case 4: // PRINT
+        {
+            print(arr, psize); // Print out the array
+            break;
+        }
+        case 5: // EXIT
+        {
+            FreeArr(arr,psize);
+            free(psize);
+            exit = TRUE;
+            break;
+        }
+        default:
+        {
+            printf("Error! Please try again!\n");
+        }
+        }
+    }
+}
+
+void printmenu()
+{
+    printf("  _____________  \n"
+        " |  Option     | \n"
+        " |  1 - Add    | \n"
+        " |  2 - Twice  | \n"
+        " |  3 - Find   | \n"
+        " |  4 - Print  | \n"
+        " |  5 - End    | \n"
+        " |_____________| \n");
+}
+
+void goodbye()
+{
+    printf("  __________  \n"
+        " |          | \n"
+        " | GOODBYE! | \n"
+        " |__________| \n");
+}
+
+char** init_arr(int* psize)
+{
+    int i = 0,exit=0;
+    char** str = CreateArr(psize);
+    do {
+        printf(" Please enter your %d string:\n", i);  // User input for the created array
+        scanf("%s", str[i]);
+        i++;
+    } while (i < *psize);
+
+    return str;
+}
+
+char** CreateArr(int* psize) // Array create function
+{
+    char** arr = (char**)malloc(*psize* sizeof(char*)); // Creat an array with psize
+    if (arr == NULL) // If the psize is illegal, return null and print error!
+    {
+        printf(" ERROR!\n");
+        return NULL;
+    }
+    for (int i = 0; i < *psize; i++)
+    {
+        arr[i] = (char*)malloc(MaxStrLenght* sizeof(char));
+        if (arr[i] == NULL) 
+        {
+            printf(" ERROR!\n");
+            return NULL;
+        }
+    }
+    return arr;
+}
+
+void FreeArr(int** arr,int*psize) // Free function
+{
+    for (int i = 0; i < *psize; i++)
+    {
+        free(arr[i]);  // Free the arr in line i
+        arr[i] = NULL;
+    }
+    free(arr); // Free the empty array
+    arr = NULL;
+    printf(" Memory released!\n");
+}
+
+char** add(char** arr, int* psize, char* str)
+{
+    int flag = 0;
+    for (int i = 0; i < *psize; i++) {
+        if (strcmp(arr[i], str) == 0) // Check if equal
+        {
+            return arr;               // If equal return with no changes
+        }
+    }
+    *psize += 1;                    // Make the size feet for the new 2D array
+    char** arr2 = CreateArr(psize); // Recreat the 2D array with the new size for entring a new line
+    for (int i = 0; i < *psize - 1; i++)
+    {
+        strcpy(arr2[i], arr[i]);    // Copy first 2D array to the new one
+    }
+    strcpy(arr2[*psize - 1], str);  // Copy tne new line to the last empty line in the new array 
+
+    return arr2;
+}
+
+void twice(char** arr, int* size, int index)
+{
+    if (index < *size && index >= 0) // If get correct index' twicing the string in the [index]
+    {
+        arr[index] = strcat(arr[index], arr[index]);
+    }
+    else
+    {
+        printf(" Bad index!\n");
+    }
+}
+
+int find(char** arr, int* psize, char* str)
+{
+    for (int i = 0; i < *psize; i++) 
+    {
+        if (strcmp(arr[i], str) == 0) // Check if str string appear in arr[i]
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+void print(char** arr, int* psize)
+{
+    for (int i = 0; i < *psize; i++) // Just print out the array
+    {
+        puts(arr[i]);
+    }
+}
