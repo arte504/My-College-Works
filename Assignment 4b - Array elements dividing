@@ -1,0 +1,96 @@
+/* Author: arte504
+ Assignment: 4 - part 2
+ */
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+int* divide();
+
+int main()
+{
+    printf(" This program will show how many elements in array A divided by elements of array B and show you it.\n");
+    int size_a, size_b,exit=0;
+    printf(" Please enter the size you want for array A:\n");
+    while (exit == 0) // User size_a input and legallty check for it
+    {
+        scanf("%d", &size_a);
+        if (size_a > 0)
+        {
+            exit = 1;
+        }
+        else
+        {
+            printf(" ERROR! The size is illegal!\n Try again please:\n");
+        }
+    }
+    int* A = malloc(size_a * sizeof(int)); // Creat array A with user size
+    printf("Enter the elements of the array A:\n");
+    for (int i = 0; i < size_a; i++) // User array A input
+    {
+        scanf("%d", &A[i]);
+    }
+
+    printf(" Please enter the size you want for array B:\n");
+    exit = 0;
+    while (exit == 0) // User size_b input and legallty check for it
+    {
+        scanf("%d", &size_b);
+        if (size_a > 0)
+        {
+            exit = 1;
+        }
+        else
+        {
+            printf(" ERROR! The size is illegal!\n Try again please:\n");
+        }
+    }
+    int* B = malloc(size_b * sizeof(int)); // Creat array B with user size
+    printf("Enter the elements of the array B:\n");
+    for (int i = 0; i < size_b; i++) // User array B input
+    {
+        scanf("%d", &B[i]);
+    }
+
+    printf("\n");
+    printf(" C array:");
+    int* C = divide(A, size_a, B, size_b); // Calling function for action
+    for (int j = 0; j < size_b; j++) // C array output in form of { a,b,c... }
+    {
+        if (j == 0)
+        {
+            printf(" { ");
+        }
+        printf(" %d", C[j]);
+        if (j == size_b-1)
+        {
+            printf(" } ");
+        }
+    }
+
+    printf("\n");
+    // Free memory allocation
+    free(A);
+    free(B);
+    free(C);
+
+	return 0;
+}
+
+int* divide(int A[], int size_a, int B[], int size_b)
+{
+    int size_c = size_b, flag=0;
+    int* C = (int*)calloc(size_b , sizeof(int)); // Create C array with size_b
+    for (int i = 0; i < size_a; i++) // Check per A[i] if pass every A[i]%B[j]=0
+    {
+        for (int j = 0; j < size_b; j++)
+        {
+            if ( (A[i] % B[j]) == 0)
+            {
+                C[j]++; // Add +1 if pass
+            }
+        }
+    }
+
+    return C;
+}
