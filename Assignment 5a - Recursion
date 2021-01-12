@@ -1,0 +1,225 @@
+/* Assignment: 5 - Ex.1
+Author: arte504
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+#define MAXLENGTH 80
+typedef enum { false, true } bool;
+
+int SumEvenDigits();
+long CreateNumber();
+int CheckArithmeticSeries();
+void ArrCheckForOddAndNegative();
+int CheckArrayOrder();
+void Reducing();
+void FreeArr();
+
+int main()
+{
+    long num = 0, SumEven = 0, NewNum = 0;
+    int diff = 0, rdiff = 0, ArrSize = 0, NewArrSize = 0, order = 0;
+
+    printf(" Here we will sum the even digits of a long number.\n");
+    // Ex.1 - Find the sum of the even digits in a long integer number
+    printf(" Please enter a long integer number:\n");
+    scanf("%ld", &num);
+    SumEven = SumEvenDigits(num);
+    printf(" The Sum is:%d\n", SumEven);
+    Space();
+
+    printf(" Now we will make a new number of the odd digits of a long number.\n");
+    // Ex.2 - Create a new number from the odd digits in a long number
+    num = 0;
+    printf(" Now please enter another long integer number:\n");
+    scanf("%ld", &num);
+    NewNum = CreateNumber(num);
+    printf(" The new long num is:%d\n", NewNum);
+    Space();
+
+    printf(" Now we will check if the difference between the digits in the long number is constant.\n");
+    // Ex.3 - Check the difference in an arithmetic series
+    num = 0;
+    printf(" Now please enter another long integer number:\n");
+    scanf("%ld", &num);
+    printf(" Now please enter the difference:\n");
+    scanf("%d", &diff);
+    rdiff = CheckArithmeticSeries(num, diff);
+    if (rdiff == false)
+    {
+        printf(" The difference between the digits isn't constant!\n");
+    }
+    else
+    {
+        printf(" The difference between the digits is constant!\n");
+    }
+    Space();
+
+    printf(" Now we will check how many odd and negative numbers we have in an array.\n");
+    // Ex.4 - Check how much odd and negative numbers there are in the array
+    int odd = 0;
+    int negative = 0;
+    printf(" Now please enter an array size:\n");
+    scanf("%d", &ArrSize);
+    int* Arr = (int*)malloc(ArrSize * sizeof(int));
+    printf(" Now please enter the array elements:\n");
+    for (int i = 0; i < ArrSize; i++)
+    {
+        scanf("%d", &Arr[i]);
+    }
+    ArrCheckForOddAndNegative(Arr, ArrSize-1, &negative, &odd);
+    printf(" The array have %d odd numbers numbers and %d negative!\n", odd, negative);
+    FreeArr(Arr);
+    Space();
+
+    printf(" Now we will check if the array is sorted in order or not.\n");
+    // Ex.5 - Check if the array is given in order from small to big
+    printf(" Now please enter a new array size:\n");
+    scanf("%d", &NewArrSize);
+    int* NewArr = (int*)malloc(NewArrSize * sizeof(int));
+    printf(" Now please enter the array elements:\n");
+    for (int i = 0; i < NewArrSize; i++)
+    {
+        scanf("%d", &NewArr[i]);
+    }
+    if (CheckArrayOrder(NewArr, NewArrSize))
+    {
+        printf(" The array is sorted in order!\n");
+    }
+    else
+    {
+        printf(" The array isn't sorted in order!\n");
+    }
+    FreeArr(NewArr);
+    Space();
+
+    printf(" Now we will extract numbers or digits from a string and create a new reversed number of it.\n");
+    // Ex.6 - Extract the numbers from the string and reverse it
+    char* str = (char*)malloc(MAXLENGTH * sizeof(char));
+    printf(" Now let's work with string.\n Enter a string of numbers and symbols please:\n");
+    scanf("%s", str);
+    Reducing(_strrev(str)); // Only calling the function because it's void function
+    printf(" \n");
+    free(str);
+    Space();
+
+    printf(" Now we will check if the string is palindrom or not.\n");
+    // Ex.7 - Check if string is palindrome
+    int pal = 0;
+    char* string = (char*)malloc(MAXLENGTH * sizeof(char));
+    printf(" Now enter a string of numbers and symbols please:\n");
+    scanf("%s", string);
+    int end = strlen(string)-1;
+    pal = Symetric(string[0], string[end]);
+    if (pal == false)
+    {
+        printf(" %s isn't a palindrome \n", string);
+    }
+    else
+    {
+        printf(" %s is a palindrome \n", string);
+    }
+    free(string);
+    return 0;
+}
+
+int SumEvenDigits(long num)
+{
+    if (num == 0)
+        return 0;
+    if (num % 2 == 0)
+        return (num % 10 + SumEvenDigits(num / 10));
+    else
+        return(SumEvenDigits(num / 10));
+}
+
+long CreateNumber(long number)
+{
+    if (number == 0)
+    {
+        return 0;
+    }
+    int Dig = number % 10;
+    long NewNum = 0, rev=0;
+    if (Dig % 2 != 0)
+    {
+        return(Dig + 10 * CreateNumber(number / 10));
+    }
+    return CreateNumber(number / 10);
+}
+
+int CheckArithmeticSeries(long number, int diff) 
+{
+    if (number == 0) 
+    {
+        return true;
+    }
+    if ( number / 10 == 0)
+    {
+        return true;
+    }
+    if ((number % 10) - ((number % 100) / 10) == diff)
+    {
+        return CheckArithmeticSeries(number/10, diff);
+    }
+    else
+    {
+        return false;
+    }
+}
+
+void ArrCheckForOddAndNegative(int* arr, int index, int* negative, int* odd)
+{    
+    if (index < 0)
+        return;
+    int n = arr[index];
+    if (n % 2 != 0)         // is arr[index] odd
+        *odd += 1;
+    if (n < 0)              // is arr[index] negative
+        *negative += 1;
+    ArrCheckForOddAndNegative(arr, index - 1, negative, odd); // continue to the next number in the array
+}
+
+int CheckArrayOrder(int arr[], int i)
+{
+    // Array has one or no element or the rest are already checked.
+    if (i == 1 || i == 0)
+        return true;
+
+    // Unsorted pair found 
+    if (arr[i - 1] < arr[i - 2])
+        return false;
+
+    // Last pair was sorted keep checking
+    return CheckArrayOrder(arr, i - 1);
+}
+
+void Reducing(char* str)
+{
+    if (str[0] == '\0')
+        return;
+    if ((str[0] >= '0') && (str[0] <= '9'))
+        printf("%c", str[0]);
+    Reducing(str + 1);
+}
+
+int Symetric(char* begin, char* end)
+{
+    // If there is only one character 
+    if (begin == end)
+        return true;
+    // If first and last characters do not match 
+    if (begin != end)
+        return false;
+    // If there are more than two characters, check if middle substring is also palindrome or not. 
+    if (begin < end + 1)
+        return Symetric(begin + 1, end - 1);
+}
+
+void FreeArr(int* arr) // Free function
+{
+    free(arr); // Free the empty array
+    arr = NULL;
+}
